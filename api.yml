@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: notice-service
+  labels:
+    app: notice-service
+spec:
+  type: NodePort
+  ports:
+  - port: 5000
+    name: http
+    nodePort: 31000
+  selector:
+    app: notice-service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notice-service
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 25%
+  selector:
+    matchLabels:
+      app: notice-service
+  template:
+    metadata:
+      labels:
+        app: notice-service
+    spec:
+      containers:
+      - name: notice-service
+        image: docker.io/vinho0onguyen/api
+        ports:
+        - containerPort: 5000
+        imagePullPolicy: Always
