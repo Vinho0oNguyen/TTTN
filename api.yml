@@ -18,7 +18,7 @@ kind: Deployment
 metadata:
   name: notice-service
 spec:
-  replicas: 2
+  replicas: 5
   strategy:
     type: RollingUpdate
     rollingUpdate:
